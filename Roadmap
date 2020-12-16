@@ -4,3 +4,5 @@ Just a file to detail any planned/forthcoming changes
 -- COMPLETE
 - See if the bot can check the last time it performed an action to reduce possibility of flooding the channel
 -- COMPLETE
+- add a command to mute the bot, possibly with an end-time specified
+-- PARTIAL COMPLETE. Basic command framework setup, no functionality yet
