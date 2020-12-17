@@ -25,6 +25,7 @@ Wakes the bot from mute. Doesn't care if the bot is actually muted or not.
 
 ### greeting
 **Arguments: None**\
+Say hello with AFI.
 
 ### goodbye
 **Arguments: None**\
