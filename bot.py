@@ -35,14 +35,16 @@ async def on_ready():
 @client.event
 async def on_message(message):
    global lastrun_time
-   ## Print trigger message to server console
-   #print(message.author.name+" said, '"+message.content+"'")
-   myChannel=message.channel
+   # check if the bot is muted and set a handy bool
+   is_muted = False
+   diff = datetime.now() - mute_end
+   is_muted = diff.total_seconds() < 0
+   # check if the bot sent the trigger message
    if not message.author.id == 788165007161950248:
       temp_time = datetime.now()
       diff = temp_time - lastrun_time
       if "bosstones" in message.content.lower():
-         if diff.seconds > 300:
+         if diff.seconds > 300 and not is_muted:
             ## update lastrun_time to new run time
             lastrun_time = temp_time
             await message.channel.send("AAAAAH WHAT ARE THESE NOISES?")
@@ -59,7 +61,8 @@ async def on_message(message):
 @client.command(name='mute', help="shuts the bot up indefinitely. Use !wake to bring it back.")
 async def mute(ctx):
    global mute_end
-   ## set mute_end to end of time?
+   ## set mute_end to 12/31/2099. I'll be dead by then probably so this code won't be my problem.
+   mute_end = datetime(2099,12,31)
    await ctx.send("The Bot is quiet now.")
 
 ## Command: Muteuntil
@@ -80,7 +83,11 @@ async def muteuntil(ctx, arg):
 @client.command(name="ismuted", help="Checks to see if the bot is currently in a muted state, and if so, for how long.")
 async def ismuted(ctx):
    global mute_end
-   await ctx.send("WORK IN PROGRESS")
+   diff = mute_end - datetime.now()
+   if diff.total_seconds() < 0:
+      await ctx.send("The bot is not muted.")
+   else:
+      await ctx.send("The bot is currently muted. It will wake up at "+mute_end.strftime("%-I:%M%p %m/%d/%y"))
 
 ## Command: Wake
 ## Description: Wakes the bot up. Doesn't care if it was actually muted or not.
