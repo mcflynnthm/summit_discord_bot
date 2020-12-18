@@ -30,23 +30,27 @@ client = commands.Bot(command_prefix='!')
 async def on_ready():
    print("The bot is ready for vengeance.")
 
+## Checks if the bot is currently in a mute state and returns True/False
+def is_muted():
+   global mute_end
+   diff = mute_end - datetime.now()
+   if diff.total_seconds() < 0:
+      return False
+   else:
+      return True
+
 ## define function for on_message
 ## this should be reserved for reactions to message content. Command definitions go below
 @client.event
 async def on_message(message):
    global lastrun_time
-   # check if the bot is muted and set a handy bool
-   is_muted = False
-   diff = datetime.now() - mute_end
-   is_muted = diff.total_seconds() < 0
    # check if the bot sent the trigger message
    if not message.author.id == 788165007161950248:
-      temp_time = datetime.now()
-      diff = temp_time - lastrun_time
       if "bosstones" in message.content.lower():
-         if diff.seconds > 300 and not is_muted:
+         diff = datetime.now() - lastrun_time
+         if diff.seconds > 300 and not is_muted():
             ## update lastrun_time to new run time
-            lastrun_time = temp_time
+            lastrun_time = datetime.now()
             await message.channel.send("AAAAAH WHAT ARE THESE NOISES?")
          ## check the server for the mmb emoji
          mmb_emoji = discord.utils.get(message.guild.emojis, name = "mmb")
@@ -82,12 +86,10 @@ async def muteuntil(ctx, arg):
 ## Description: Check if the bot is currently muted.
 @client.command(name="ismuted", help="Checks to see if the bot is currently in a muted state, and if so, for how long.")
 async def ismuted(ctx):
-   global mute_end
-   diff = mute_end - datetime.now()
-   if diff.total_seconds() < 0:
-      await ctx.send("The bot is not muted.")
-   else:
+   if is_muted():
       await ctx.send("The bot is currently muted. It will wake up at "+mute_end.strftime("%-I:%M%p %m/%d/%y"))
+   else:
+      await ctx.send("The bot is not muted.")
 
 ## Command: Wake
 ## Description: Wakes the bot up. Doesn't care if it was actually muted or not.
