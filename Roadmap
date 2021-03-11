@@ -7,3 +7,4 @@ Just a file to detail any planned/forthcoming changes
 - add a command to mute the bot, possibly with an end-time specified
 -- COMPLETE. See README for commend documentation.
 - make bot invoke specific users on "bosstones" mention
+- add command to return random ska song (!pickitup)

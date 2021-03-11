@@ -15,6 +15,13 @@ from datetime import datetime
 from datetime import date
 from datetime import timedelta
 
+## import Spotify stuff
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+spotify_id = os.getenv("SPOTIFY_CLIENT_ID")
+spotify_sec = os.getenv("SPOTIFY_CLIENT_SECRET")
+spotify_redir = os.getenv("SPOTIFY_REDIRECT_URL")
+
 ## global variables
 mute_end = datetime.now()
 lastrun_time = datetime.now()
@@ -98,6 +105,14 @@ async def wake(ctx):
    global mute_end
    mute_end = datetime.now()
    await ctx.send("The Bot has awoken. Despair.")
+
+## Command: pickitup
+## Description: Return a random ska song
+@client.command(name="pickitup", help="Gimme a random ska song, hup hup")
+async def pickitup(ctx):
+   pass
+   #TBD: Implement *waves hands* everything
+   #"q=genre:ska&type=track&offset="+randint(1,2000)
 
 ## Command: Greeting
 ## Why do I still have these in here?
