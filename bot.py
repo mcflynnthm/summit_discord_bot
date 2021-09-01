@@ -121,7 +121,8 @@ async def pickitup(ctx):
 @client.command(name="dadjoke", help="Tell me a joke. A GOOD joke.")
 async def dadjoke(ctx):
    URL = "https://icanhazdadjoke.com/"
-   req = requests.get(URL)
+   PARAM = {'accept': 'application/json'}
+   req = requests.get(url = URL, headers= PARAM)
    joke = req.json()
    await ctx.send(joke['joke'])
 
