@@ -22,6 +22,8 @@ spotify_id = os.getenv("SPOTIFY_CLIENT_ID")
 spotify_sec = os.getenv("SPOTIFY_CLIENT_SECRET")
 spotify_redir = os.getenv("SPOTIFY_REDIRECT_URL")
 
+import requests
+
 ## global variables
 mute_end = datetime.now()
 lastrun_time = datetime.now()
@@ -113,6 +115,15 @@ async def pickitup(ctx):
    pass
    #TBD: Implement *waves hands* everything
    #"q=genre:ska&type=track&offset="+randint(1,2000)
+
+## Command: dadjoke
+## Description: Return a random dad joke from the icanhazdadjoke.com API
+@client.command(name="dadjoke", help="Tell me a joke. A GOOD joke.")
+async def dadjoke(ctx):
+   URL = "https://icanhazdadjoke.com/"
+   req = requests.get(URL)
+   joke = req.json()
+   await ctx.send(joke['joke'])
 
 ## Command: Greeting
 ## Why do I still have these in here?
